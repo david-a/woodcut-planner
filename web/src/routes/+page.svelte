@@ -6,23 +6,32 @@
     Settings,
     WoodPiece,
     CalculationResult,
+    WoodType,
   } from "../lib/types/wood";
   import { calculateCuts, ApiError } from "../lib/utils/api";
   import { onMount } from "svelte";
 
-  let settings: Settings;
-  let pieces: WoodPiece[] = [];
-  let result: CalculationResult | null = null;
-  let error: string | null = null;
-  let isLoading = false;
-  let isInitialized = false;
+  let settings = $state<Settings>();
+  let pieces = $state<WoodPiece[]>([]);
+  let result = $state<CalculationResult | null>(null);
+  let error = $state<string | null>(null);
+  let isLoading = $state(false);
+  let isInitialized = $state(false);
 
-  $: availableTypes = settings?.wood_types
-    ? Object.keys(settings.wood_types)
-    : [];
+  const availableTypes = $derived(
+    settings?.wood_types ? Object.keys(settings.wood_types) : []
+  );
 
+  function initializeDefaultSettings() {
+    settings = {
+      wood_types: {},
+      saw_width: 0.3,
+      currency: "ILS",
+    };
+  }
+
+  // Load settings on mount
   onMount(() => {
-    // Load saved data from localStorage if available
     const savedSettings = localStorage.getItem("woodcalc_settings");
     if (savedSettings) {
       try {
@@ -37,18 +46,12 @@
     isInitialized = true;
   });
 
-  function initializeDefaultSettings() {
-    settings = {
-      wood_types: {},
-      saw_width: 0.3,
-      currency: "ILS",
-    };
-  }
-
-  // Save settings whenever they change, but only after initialization
-  $: if (isInitialized && settings) {
-    localStorage.setItem("woodcalc_settings", JSON.stringify(settings));
-  }
+  // Save settings effect
+  $effect(() => {
+    if (isInitialized && settings) {
+      localStorage.setItem("woodcalc_settings", JSON.stringify(settings));
+    }
+  });
 
   async function handleCalculate() {
     error = null;
@@ -66,6 +69,14 @@
     } finally {
       isLoading = false;
     }
+  }
+
+  function updateWoodTypes(newWoodTypes: Record<string, WoodType>) {
+    settings = { ...settings, wood_types: newWoodTypes };
+  }
+
+  function updatePieces(newPieces: WoodPiece[]) {
+    pieces = newPieces;
   }
 </script>
 
@@ -101,15 +112,19 @@
           </div>
         </details>
 
-        <WoodTypeInput bind:woodTypes={settings.wood_types} />
+        <WoodTypeInput
+          woodTypes={settings.wood_types}
+          currency={settings.currency}
+          onUpdate={updateWoodTypes}
+        />
 
         {#if availableTypes.length > 0}
-          <PiecesInput bind:pieces {availableTypes} />
+          <PiecesInput {pieces} {availableTypes} onUpdate={updatePieces} />
 
           <div class="actions">
             <button
               class="calculate-btn"
-              on:click={handleCalculate}
+              onclick={handleCalculate}
               disabled={isLoading || pieces.length === 0}
             >
               {#if isLoading}
