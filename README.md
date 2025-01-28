@@ -81,3 +81,7 @@ print(f"Total cost: ${result.total_cost:.2f}")
 - Calculates costs per type and total
 - Provides detailed arrangement information
 - Simple CLI and Python API
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

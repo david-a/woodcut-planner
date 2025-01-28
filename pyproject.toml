@@ -3,6 +3,7 @@ name = "woodcut-planner"
 version = "0.1.0"
 description = "A calculator for optimizing wood cutting arrangements"
 authors = ["Your Name <your.email@example.com>"]
+license = "MIT"
 readme = "README.md"
 packages = [{ include = "woodcut_planner", from = "src" }]
 
