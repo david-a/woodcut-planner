@@ -55,11 +55,18 @@ wood-calculator/
   - [x] Account for saw width between cuts
 - [x] Calculate required units per wood type
 - [x] Calculate costs (per type and total)
+- [x] Implement multiple optimization strategies:
+  - [x] Basic length-descending sort
+  - [x] Group similar lengths together
+  - [x] Pair long pieces with short ones
+- [x] Add arrangement evaluation based on:
+  - [x] Total waste minimization
+  - [x] Preference for longer waste pieces
 
 ### 5. Helper Functions (`utils.py`) 🔄
 
 - [ ] Implement length conversion utilities
-- [ ] Create formatting functions for output
+- [x] Create formatting functions for output
 - [ ] Add validation helpers
 
 ### 6. Testing ⏳
@@ -73,6 +80,10 @@ wood-calculator/
   - Single very long piece
   - Many small pieces
   - Mixed piece sizes
+- [ ] Test optimization strategies:
+  - Compare waste reduction between strategies
+  - Verify waste length preferences
+  - Test with various input combinations
 
 ### 7. Documentation ✅
 
@@ -86,27 +97,68 @@ wood-calculator/
 - [x] Add CLI interface for command-line usage
 - [x] Implement input file reading (JSON/YAML)
 - [x] Add output formatting options
+- [x] Add summary table with totals
+- [x] Improve output readability with separators
 
-### 9. Optimization Improvements ⏳
+### 9. Optimization Improvements 🔄
 
-- [ ] Enhance arrangement algorithm to minimize overall waste
-- [ ] Implement preference for longer waste pieces over multiple shorter ones
+- [x] Enhance arrangement algorithm to minimize overall waste
+- [x] Implement preference for longer waste pieces over multiple shorter ones
 - [ ] Add waste statistics to output:
-  - Total waste length per wood type
-  - Waste piece lengths distribution
-  - Waste percentage of total wood used
+  - [ ] Waste percentage of total wood used
+  - [ ] Waste distribution analysis
+  - [ ] Potential savings suggestions
 - [ ] Add visual representation of cuts and waste (ASCII diagram)
+- [ ] Additional optimization strategies:
+  - [ ] Dynamic programming approach for optimal cutting
+  - [ ] Consider rotations for rectangular pieces
+  - [ ] Multi-pass optimization with backtracking
 
 ## Implementation Notes
 
 ### Optimization Strategy
 
-The arrangement algorithm should be enhanced to:
+The arrangement algorithm now implements multiple strategies:
 
-1. Minimize the total waste across all units
-2. Prefer arrangements that result in fewer, longer waste pieces over multiple shorter ones
-3. Consider combining shorter pieces with longer ones to maximize the usability of waste pieces
-4. Track and report waste statistics for better decision making
+1. Basic length-descending sort:
+
+   - Sort pieces by length in descending order
+   - Good for simple arrangements with similar piece lengths
+
+2. Group similar lengths:
+
+   - Group pieces of the same length together
+   - Helps minimize saw cuts and waste between similar pieces
+
+3. Long-short pairing:
+   - Pair longest pieces with shortest ones
+   - Tries to fill gaps with small pieces
+   - Can result in better space utilization
+
+The algorithm evaluates each strategy based on:
+
+- Total waste generated
+- Length of waste pieces (preferring fewer, longer pieces)
+- Unit utilization efficiency
+
+### Future Improvements
+
+1. Waste Analysis:
+
+   - Add detailed waste statistics
+   - Calculate waste percentage per unit and total
+   - Suggest optimal piece combinations
+
+2. Visualization:
+
+   - ASCII diagrams of cutting patterns
+   - Visual waste distribution
+   - Unit utilization graphs
+
+3. Advanced Optimization:
+   - Multiple-pass optimization
+   - Consider piece rotations
+   - Dynamic adjustment of strategies based on input patterns
 
 ### Data Structures
 
