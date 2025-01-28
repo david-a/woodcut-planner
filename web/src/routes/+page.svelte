@@ -1,0 +1,223 @@
+<script lang="ts">
+  import WoodTypeInput from "../lib/components/WoodTypeInput.svelte";
+  import PiecesInput from "../lib/components/PiecesInput.svelte";
+  import ResultsView from "../lib/components/ResultsView.svelte";
+  import type {
+    Settings,
+    WoodPiece,
+    CalculationResult,
+  } from "../lib/types/wood";
+  import { calculateCuts, ApiError } from "../lib/utils/api";
+  import { onMount } from "svelte";
+
+  let settings: Settings = {
+    wood_types: {},
+    saw_width: 0.3,
+    currency: " ILS",
+  };
+
+  let pieces: WoodPiece[] = [];
+  let result: CalculationResult | null = null;
+  let error: string | null = null;
+  let isLoading = false;
+
+  $: availableTypes = Object.keys(settings.wood_types);
+
+  onMount(async () => {
+    console.log("onMount");
+    // Load saved data from localStorage if available
+    const savedSettings = localStorage.getItem("woodcalc_settings");
+    console.log("savedSettings", savedSettings);
+    if (savedSettings) {
+      try {
+        settings = JSON.parse(savedSettings);
+      } catch (e) {
+        console.error("Failed to load saved settings:", e);
+      }
+    }
+  });
+
+  // Save settings whenever they change
+  $: {
+    console.log("settings changed", settings);
+    localStorage.setItem("woodcalc_settings", JSON.stringify(settings));
+  }
+
+  async function handleCalculate() {
+    error = null;
+    isLoading = true;
+
+    try {
+      result = await calculateCuts({ settings, pieces });
+    } catch (e) {
+      if (e instanceof ApiError) {
+        error = e.message;
+      } else {
+        error = "Failed to connect to the server. Please try again.";
+      }
+      result = null;
+    } finally {
+      isLoading = false;
+    }
+  }
+</script>
+
+<svelte:head>
+  <title>Wood Cut Calculator</title>
+</svelte:head>
+
+<main>
+  <div class="container">
+    <h1>Wood Cut Calculator</h1>
+
+    <div class="settings-section">
+      <div class="general-setting">
+        <label for="saw-width">Saw Width (cm)</label>
+        <input
+          id="saw-width"
+          type="number"
+          bind:value={settings.saw_width}
+          min="0.1"
+          step="0.1"
+        />
+      </div>
+      <div class="general-setting">
+        <div class="currency-setting">
+          <label for="currency">Currency</label>
+          <input id="currency" type="text" bind:value={settings.currency} />
+        </div>
+      </div>
+
+      <WoodTypeInput bind:woodTypes={settings.wood_types} />
+
+      {#if availableTypes.length > 0}
+        <PiecesInput bind:pieces {availableTypes} />
+
+        <div class="actions">
+          <button
+            class="calculate-btn"
+            on:click={handleCalculate}
+            disabled={isLoading || pieces.length === 0}
+          >
+            {#if isLoading}
+              Calculating...
+            {:else}
+              Calculate Cuts
+            {/if}
+          </button>
+        </div>
+
+        {#if error}
+          <div class="error-message">
+            {error}
+          </div>
+        {/if}
+
+        {#if result}
+          <ResultsView {result} />
+        {/if}
+      {:else}
+        <div class="info-message">
+          Add wood types above to start planning your cuts
+        </div>
+      {/if}
+    </div>
+  </div>
+</main>
+
+<style>
+  :global(body) {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      "Helvetica Neue", Arial, sans-serif;
+    background: #f0f2f5;
+    color: #2c3e50;
+    line-height: 1.5;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  h1 {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .settings-section {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .general-setting {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: #fff;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  label {
+    font-weight: bold;
+    color: #2c3e50;
+    min-width: 120px;
+  }
+
+  input {
+    padding: 0.5rem;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    width: 100px;
+  }
+
+  .actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+
+  .calculate-btn {
+    padding: 0.75rem 2rem;
+    font-size: 1.1rem;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .calculate-btn:not(:disabled):hover {
+    background: #2980b9;
+  }
+
+  .calculate-btn:disabled {
+    background: #95a5a6;
+    cursor: not-allowed;
+  }
+
+  .info-message {
+    text-align: center;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: #6c757d;
+  }
+
+  .error-message {
+    text-align: center;
+    padding: 1rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: #dc3545;
+    border-left: 4px solid #dc3545;
+  }
+</style>
