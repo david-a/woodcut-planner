@@ -69,18 +69,18 @@ wood-calculator/
 - [x] Create formatting functions for output
 - [ ] Add validation helpers
 
-### 6. Testing ⏳
+### 6. Testing 🔄
 
-- [ ] Write unit tests for models
-- [ ] Write unit tests for calculator logic
-- [ ] Write unit tests for arrangement algorithm
-- [ ] Add integration tests
-- [ ] Add test cases for edge cases:
+- [x] Write unit tests for models
+- [x] Write unit tests for calculator logic
+- [x] Write unit tests for arrangement algorithm
+- [x] Add integration tests
+- [x] Add test cases for edge cases:
   - Empty input
   - Single very long piece
   - Many small pieces
   - Mixed piece sizes
-- [ ] Test optimization strategies:
+- [x] Test optimization strategies:
   - Compare waste reduction between strategies
   - Verify waste length preferences
   - Test with various input combinations
@@ -187,16 +187,16 @@ wood-calculator/
   - [ ] Touch controls for diagrams
   - [ ] Adaptive input methods
 
-#### 10.4 API Integration
+#### 10.4 API Integration ✅
 
-- [ ] Create FastAPI backend endpoints:
-  - [ ] Calculate arrangements
-  - [ ] Generate CSVs
-  - [ ] Project management
-- [ ] Implement API client in Svelte:
-  - [ ] Type-safe API calls
-  - [ ] Error handling
-  - [ ] Loading states
+- [x] Create FastAPI backend endpoints:
+  - [x] Calculate arrangements
+  - [x] Generate CSVs
+  - [x] Health check endpoint
+- [x] Implement API test scripts:
+  - [x] Python test script with requests
+  - [x] Shell test script with curl
+  - [x] Comprehensive test coverage
 
 #### 10.5 User Experience
 
