@@ -114,6 +114,152 @@ wood-calculator/
   - [ ] Consider rotations for rectangular pieces
   - [ ] Multi-pass optimization with backtracking
 
+### 10. Web Interface (Svelte UI) ⏳
+
+#### 10.1 Project Setup
+
+- [ ] Initialize SvelteKit project with TypeScript
+- [ ] Set up project structure:
+  ```
+  web/
+  ├── src/
+  │   ├── lib/
+  │   │   ├── components/
+  │   │   │   ├── WoodTypeInput.svelte
+  │   │   │   ├── PiecesInput.svelte
+  │   │   │   ├── SettingsForm.svelte
+  │   │   │   ├── ResultsView.svelte
+  │   │   │   └── CuttingDiagram.svelte
+  │   │   ├── types/
+  │   │   │   └── wood.ts
+  │   │   └── utils/
+  │   │       ├── csv.ts
+  │   │       └── api.ts
+  │   ├── routes/
+  │   │   └── +page.svelte
+  │   └── app.html
+  └── static/
+      └── images/
+  ```
+
+#### 10.2 Core Components
+
+- [ ] Create responsive layout with modern design
+- [ ] Implement WoodTypeInput component:
+  - Dynamic form for wood type specifications
+  - Validation for required fields
+  - Ability to add/remove wood types
+- [ ] Implement PiecesInput component:
+  - Dynamic table-like interface for entering pieces
+  - Bulk input support (paste from spreadsheet)
+  - Real-time validation
+- [ ] Implement SettingsForm component:
+  - Default saw width with override
+  - Currency selection
+  - Unit system selection (cm/inches)
+- [ ] Implement ResultsView component:
+  - Collapsible sections for each wood type
+  - Visual waste indicators
+  - Cost breakdown
+  - Summary statistics
+- [ ] Create CuttingDiagram component:
+  - Visual representation of cuts
+  - Color coding for pieces and waste
+  - Zoom and pan controls
+
+#### 10.3 Features
+
+- [ ] Input Management:
+  - [ ] Save/load projects to local storage
+  - [ ] Import from JSON/CSV
+  - [ ] Template projects
+- [ ] Results Export:
+  - [ ] Export cutting list to CSV
+  - [ ] Export arrangements to CSV
+  - [ ] Print-friendly view
+  - [ ] Save diagrams as images
+- [ ] Interactivity:
+  - [ ] Drag and drop piece reordering
+  - [ ] Manual arrangement adjustments
+  - [ ] Real-time calculation updates
+- [ ] Responsive Design:
+  - [ ] Mobile-friendly layout
+  - [ ] Touch controls for diagrams
+  - [ ] Adaptive input methods
+
+#### 10.4 API Integration
+
+- [ ] Create FastAPI backend endpoints:
+  - [ ] Calculate arrangements
+  - [ ] Generate CSVs
+  - [ ] Project management
+- [ ] Implement API client in Svelte:
+  - [ ] Type-safe API calls
+  - [ ] Error handling
+  - [ ] Loading states
+
+#### 10.5 User Experience
+
+- [ ] Add helpful tooltips
+- [ ] Implement undo/redo functionality
+- [ ] Add keyboard shortcuts
+- [ ] Create onboarding tutorial
+- [ ] Add example projects
+
+#### 10.6 Performance
+
+- [ ] Implement lazy loading for large projects
+- [ ] Add client-side caching
+- [ ] Optimize cutting diagram rendering
+- [ ] Add service worker for offline support
+
+#### 10.7 Testing
+
+- [ ] Unit tests for components
+- [ ] Integration tests for forms
+- [ ] E2E tests for critical paths
+- [ ] Performance testing
+
+### Data Flow
+
+```mermaid
+graph TD
+    A[User Input] --> B[PiecesInput]
+    A --> C[WoodTypeInput]
+    A --> D[SettingsForm]
+    B --> E[Validation]
+    C --> E
+    D --> E
+    E --> F[API Call]
+    F --> G[ResultsView]
+    G --> H[CuttingDiagram]
+    G --> I[CSV Export]
+```
+
+### UI Mockup
+
+```
++------------------+
+|  Wood Calculator |
++------------------+
+| [Settings      ▼]|
+| [Wood Types   ▼]|
+| [Pieces Input ▼]|
++------------------+
+|   Results        |
+| +---------------+|
+| |Type: Pine 5x10||
+| |Units: 3       ||
+| |Cost: $150     ||
+| |               ||
+| | [Diagram]     ||
+| |               ||
+| +---------------+|
+|                 |
+| [Export to CSV] |
++------------------+
+```
+
 ## Implementation Notes
 
 ### Optimization Strategy
