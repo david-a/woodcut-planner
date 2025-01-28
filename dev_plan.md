@@ -24,45 +24,45 @@ wood-calculator/
 
 ## Development Steps
 
-### 1. Project Setup
+### 1. Project Setup ✅
 
-- [ ] Initialize Python project with `pyproject.toml`
-- [ ] Set up virtual environment
-- [ ] Configure basic dependencies (pydantic for models, pytest for testing)
-- [ ] Create project structure
+- [x] Initialize Python project with `pyproject.toml`
+- [x] Set up virtual environment
+- [x] Configure basic dependencies (pydantic for models, pytest for testing)
+- [x] Create project structure
 
-### 2. Data Models Implementation (`models.py`)
+### 2. Data Models Implementation (`models.py`) ✅
 
-- [ ] Create `WoodType` model for wood specifications
-- [ ] Create `WoodPiece` model for required lengths
-- [ ] Create `Settings` model for configuration
-- [ ] Create `CutPlan` model for output arrangement
-- [ ] Create `CalculationResult` model for final output
+- [x] Create `WoodType` model for wood specifications
+- [x] Create `WoodPiece` model for required lengths
+- [x] Create `Settings` model for configuration
+- [x] Create `CutPlan` model for output arrangement
+- [x] Create `CalculationResult` model for final output
 
-### 3. Settings Management (`settings.py`)
+### 3. Settings Management ✅
 
-- [ ] Implement settings loading mechanism
-- [ ] Add validation for wood types and their properties
-- [ ] Add validation for delimiter (saw width) settings
+- [x] Implement settings loading mechanism
+- [x] Add validation for wood types and their properties
+- [x] Add validation for delimiter (saw width) settings
 
-### 4. Core Calculation Logic (`calculator.py`)
+### 4. Core Calculation Logic (`calculator.py`) ✅
 
-- [ ] Implement input validation and preprocessing
-- [ ] Create function to group pieces by wood type
-- [ ] Implement the arrangement algorithm:
-  - [ ] Sort pieces by length (descending)
-  - [ ] Implement First-Fit Decreasing algorithm for bin packing
-  - [ ] Account for saw width between cuts
-- [ ] Calculate required units per wood type
-- [ ] Calculate costs (per type and total)
+- [x] Implement input validation and preprocessing
+- [x] Create function to group pieces by wood type
+- [x] Implement the arrangement algorithm:
+  - [x] Sort pieces by length (descending)
+  - [x] Implement First-Fit Decreasing algorithm for bin packing
+  - [x] Account for saw width between cuts
+- [x] Calculate required units per wood type
+- [x] Calculate costs (per type and total)
 
-### 5. Helper Functions (`utils.py`)
+### 5. Helper Functions (`utils.py`) 🔄
 
 - [ ] Implement length conversion utilities
 - [ ] Create formatting functions for output
 - [ ] Add validation helpers
 
-### 6. Testing
+### 6. Testing ⏳
 
 - [ ] Write unit tests for models
 - [ ] Write unit tests for calculator logic
@@ -74,20 +74,39 @@ wood-calculator/
   - Many small pieces
   - Mixed piece sizes
 
-### 7. Documentation
+### 7. Documentation ✅
 
-- [ ] Write README with setup and usage instructions
-- [ ] Add docstrings to all functions
-- [ ] Add type hints
-- [ ] Include example usage
+- [x] Write README with setup and usage instructions
+- [x] Add docstrings to all functions
+- [x] Add type hints
+- [x] Include example usage
 
-### 8. CLI Interface (Optional Extension)
+### 8. CLI Interface ✅
 
-- [ ] Add CLI interface for command-line usage
-- [ ] Implement input file reading (JSON/YAML)
-- [ ] Add output formatting options
+- [x] Add CLI interface for command-line usage
+- [x] Implement input file reading (JSON/YAML)
+- [x] Add output formatting options
+
+### 9. Optimization Improvements ⏳
+
+- [ ] Enhance arrangement algorithm to minimize overall waste
+- [ ] Implement preference for longer waste pieces over multiple shorter ones
+- [ ] Add waste statistics to output:
+  - Total waste length per wood type
+  - Waste piece lengths distribution
+  - Waste percentage of total wood used
+- [ ] Add visual representation of cuts and waste (ASCII diagram)
 
 ## Implementation Notes
+
+### Optimization Strategy
+
+The arrangement algorithm should be enhanced to:
+
+1. Minimize the total waste across all units
+2. Prefer arrangements that result in fewer, longer waste pieces over multiple shorter ones
+3. Consider combining shorter pieces with longer ones to maximize the usability of waste pieces
+4. Track and report waste statistics for better decision making
 
 ### Data Structures
 
@@ -136,6 +155,11 @@ output = {
     "costs": {
         "per_type": {"pine 5x10": 50},
         "total": 50
+    },
+    "waste_statistics": {
+        "total_waste": 49.4,
+        "waste_pieces": [49.4],
+        "waste_percentage": 10.3
     }
 }
 ```
