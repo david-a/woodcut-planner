@@ -84,11 +84,6 @@ A calculator that helps optimize wood cutting by efficiently arranging required 
   - [x] Waste percentage of total wood used
   - [x] Waste distribution analysis
   - [x] Potential savings suggestions
-- [ ] Add visual representation of cuts and waste (ASCII diagram)
-- [ ] Additional optimization strategies:
-  - [ ] Dynamic programming approach for optimal cutting
-  - [ ] Consider rotations for rectangular pieces
-  - [ ] Multi-pass optimization with backtracking
 
 ### 9. Web Interface (Svelte UI) ⏳
 
