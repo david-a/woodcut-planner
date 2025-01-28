@@ -4,24 +4,6 @@
 
 A calculator that helps optimize wood cutting by efficiently arranging required lengths into standard wood units, considering saw width and providing cost calculations.
 
-## Project Structure
-
-```
-wood-calculator/
-├── pyproject.toml
-├── README.md
-├── src/
-│   ├── __init__.py
-│   ├── models.py        # Data models and type definitions
-│   ├── calculator.py    # Core calculation logic
-│   ├── settings.py      # Settings management
-│   └── utils.py         # Helper functions
-└── tests/
-    ├── __init__.py
-    ├── test_calculator.py
-    └── test_utils.py
-```
-
 ## Development Steps
 
 ### 1. Project Setup ✅
@@ -63,13 +45,7 @@ wood-calculator/
   - [x] Total waste minimization
   - [x] Preference for longer waste pieces
 
-### 5. Helper Functions (`utils.py`) 🔄
-
-- [ ] Implement length conversion utilities
-- [x] Create formatting functions for output
-- [ ] Add validation helpers
-
-### 6. Testing 🔄
+### 5. Testing ✅
 
 - [x] Write unit tests for models
 - [x] Write unit tests for calculator logic
@@ -85,14 +61,14 @@ wood-calculator/
   - Verify waste length preferences
   - Test with various input combinations
 
-### 7. Documentation ✅
+### 6. Documentation ✅
 
 - [x] Write README with setup and usage instructions
 - [x] Add docstrings to all functions
 - [x] Add type hints
 - [x] Include example usage
 
-### 8. CLI Interface ✅
+### 7. CLI Interface ✅
 
 - [x] Add CLI interface for command-line usage
 - [x] Implement input file reading (JSON/YAML)
@@ -100,23 +76,23 @@ wood-calculator/
 - [x] Add summary table with totals
 - [x] Improve output readability with separators
 
-### 9. Optimization Improvements 🔄
+### 8. Optimization Improvements 🔄
 
 - [x] Enhance arrangement algorithm to minimize overall waste
 - [x] Implement preference for longer waste pieces over multiple shorter ones
-- [ ] Add waste statistics to output:
-  - [ ] Waste percentage of total wood used
-  - [ ] Waste distribution analysis
-  - [ ] Potential savings suggestions
+- [x] Add waste statistics to output:
+  - [x] Waste percentage of total wood used
+  - [x] Waste distribution analysis
+  - [x] Potential savings suggestions
 - [ ] Add visual representation of cuts and waste (ASCII diagram)
 - [ ] Additional optimization strategies:
   - [ ] Dynamic programming approach for optimal cutting
   - [ ] Consider rotations for rectangular pieces
   - [ ] Multi-pass optimization with backtracking
 
-### 10. Web Interface (Svelte UI) ⏳
+### 9. Web Interface (Svelte UI) ⏳
 
-#### 10.1 Project Setup
+#### 9.1 Project Setup
 
 - [ ] Initialize SvelteKit project with TypeScript
 - [ ] Set up project structure:
@@ -142,7 +118,7 @@ wood-calculator/
       └── images/
   ```
 
-#### 10.2 Core Components
+#### 9.2 Core Components
 
 - [ ] Create responsive layout with modern design
 - [ ] Implement WoodTypeInput component:
@@ -167,7 +143,7 @@ wood-calculator/
   - Color coding for pieces and waste
   - Zoom and pan controls
 
-#### 10.3 Features
+#### 9.3 Features
 
 - [ ] Input Management:
   - [ ] Save/load projects to local storage
@@ -187,7 +163,7 @@ wood-calculator/
   - [ ] Touch controls for diagrams
   - [ ] Adaptive input methods
 
-#### 10.4 API Integration ✅
+#### 9.4 API Integration ✅
 
 - [x] Create FastAPI backend endpoints:
   - [x] Calculate arrangements
@@ -198,7 +174,7 @@ wood-calculator/
   - [x] Shell test script with curl
   - [x] Comprehensive test coverage
 
-#### 10.5 User Experience
+#### 9.5 User Experience
 
 - [ ] Add helpful tooltips
 - [ ] Implement undo/redo functionality
@@ -206,14 +182,14 @@ wood-calculator/
 - [ ] Create onboarding tutorial
 - [ ] Add example projects
 
-#### 10.6 Performance
+#### 9.6 Performance
 
 - [ ] Implement lazy loading for large projects
 - [ ] Add client-side caching
 - [ ] Optimize cutting diagram rendering
 - [ ] Add service worker for offline support
 
-#### 10.7 Testing
+#### 9.7 Testing
 
 - [ ] Unit tests for components
 - [ ] Integration tests for forms

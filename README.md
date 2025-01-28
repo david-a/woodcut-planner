@@ -19,7 +19,7 @@ The calculator can be used in three ways:
 ### Command Line Usage
 
 ```bash
-poetry run python -m woodcut_planner.cli pieces.json settings.json
+poetry run python -m woodcut_planner.cli test-pieces.json test-settings.json
 ```
 
 ### Python API Usage

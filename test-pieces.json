@@ -1,0 +1,7 @@
+[
+  { "type": "pine 5x10", "length": 250, "count": 2 },
+  { "type": "pine 5x10", "length": 180, "count": 3 },
+  { "type": "pine 5x10", "length": 90, "count": 4 },
+  { "type": "oak 4x8", "length": 200, "count": 2 },
+  { "type": "oak 4x8", "length": 150, "count": 3 }
+]

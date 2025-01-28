@@ -19,6 +19,7 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+pytest_cache/
 
 # Virtual Environment
 .env
@@ -35,3 +36,7 @@ ENV/
 
 # Poetry
 poetry.lock 
+
+# App data
+pieces.json
+settings.json

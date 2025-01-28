@@ -1,0 +1,14 @@
+{
+  "wood_types": {
+    "pine 5x10": {
+      "unit_length": 480,
+      "price": 50
+    },
+    "oak 4x8": {
+      "unit_length": 400,
+      "price": 75
+    }
+  },
+  "saw_width": 0.3,
+  "currency": " USD"
+}

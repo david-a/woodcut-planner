@@ -9,6 +9,7 @@ from .models import (
     WoodUnit,
     WoodArrangement,
     PiecePlacement,
+    WasteStatistics,
 )
 
 
@@ -134,6 +135,61 @@ def _arrange_pieces(
     return best_arrangement
 
 
+def _calculate_waste_statistics(
+    arrangements: List[WoodArrangement],
+    settings: Settings,
+) -> WasteStatistics:
+    """Calculate detailed waste statistics for the arrangements."""
+    total_waste = 0
+    waste_by_type = {}
+    total_wood_used = 0
+    waste_distribution = defaultdict(list)
+    potential_savings = {}
+
+    for arr in arrangements:
+        wood_type = arr.wood_type
+        wood_settings = settings.wood_types[wood_type]
+        type_waste = sum(unit.waste for unit in arr.units)
+        type_total = len(arr.units) * wood_settings.unit_length
+
+        # Calculate waste for this type
+        waste_by_type[wood_type] = type_waste
+        total_waste += type_waste
+        total_wood_used += type_total
+
+        # Record waste distribution
+        waste_distribution[wood_type] = [unit.waste for unit in arr.units]
+
+        # Generate saving suggestions
+        avg_waste = type_waste / len(arr.units) if arr.units else 0
+        if avg_waste > wood_settings.unit_length * 0.1:  # More than 10% waste
+            potential_savings[wood_type] = (
+                "Consider combining orders or finding smaller pieces to fill gaps"
+            )
+        elif len(arr.units) > 1 and any(
+            unit.waste > wood_settings.unit_length * 0.2 for unit in arr.units
+        ):
+            potential_savings[wood_type] = (
+                "Large waste in some units - consider rearranging pieces"
+            )
+        else:
+            potential_savings[wood_type] = "Waste is within acceptable range"
+
+    # Calculate overall waste percentage
+    waste_percentage = (
+        (total_waste / total_wood_used * 100) if total_wood_used > 0 else 0
+    )
+
+    return WasteStatistics(
+        total_waste=total_waste,
+        waste_by_type=waste_by_type,
+        total_wood_used=total_wood_used,
+        waste_percentage=waste_percentage,
+        waste_distribution=dict(waste_distribution),
+        potential_savings=potential_savings,
+    )
+
+
 def calculate_wood_arrangement(
     pieces: List[WoodPiece], settings: Settings
 ) -> CalculationResult:
@@ -164,9 +220,13 @@ def calculate_wood_arrangement(
         costs[wood_type] = type_cost
         total_cost += type_cost
 
+    # Calculate waste statistics
+    waste_statistics = _calculate_waste_statistics(arrangements, settings)
+
     return CalculationResult(
         arrangements=arrangements,
         total_units=total_units,
         costs=costs,
         total_cost=total_cost,
+        waste_statistics=waste_statistics,
     )

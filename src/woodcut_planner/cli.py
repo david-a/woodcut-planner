@@ -15,6 +15,10 @@ def format_currency(amount: float, currency: str) -> str:
     return f"{amount:.2f}{currency}"
 
 
+def format_percentage(value: float) -> str:
+    return f"{value:.1f}%"
+
+
 @click.command()
 @click.argument("pieces_file", type=click.Path(exists=True))
 @click.argument("settings_file", type=click.Path(exists=True))
@@ -43,18 +47,13 @@ def calculate(pieces_file: str, settings_file: str):
     print_separator()
     click.echo()
 
-    # Track total waste for summary
-    total_waste = 0
-    total_units = 0
     summary_data = []
 
     for arr in result.arrangements:
         wood_type = arr.wood_type
         units_needed = result.total_units[wood_type]
         cost = result.costs[wood_type]
-        wood_waste = sum(unit.waste for unit in arr.units)
-        total_waste += wood_waste
-        total_units += units_needed
+        wood_waste = result.waste_statistics.waste_by_type[wood_type]
 
         # Add to summary data
         summary_data.append(
@@ -63,6 +62,11 @@ def calculate(pieces_file: str, settings_file: str):
                 units_needed,
                 format_currency(cost, settings.currency),
                 f"{wood_waste:.1f}cm",
+                format_percentage(
+                    wood_waste
+                    / (units_needed * settings.wood_types[wood_type].unit_length)
+                    * 100
+                ),
             ]
         )
 
@@ -71,6 +75,9 @@ def calculate(pieces_file: str, settings_file: str):
         click.echo(f"Number of units needed: {units_needed}")
         click.echo(f"Cost: {format_currency(cost, settings.currency)}")
         click.echo(f"Total waste: {wood_waste:.1f}cm")
+        click.echo(
+            f"Suggestion: {result.waste_statistics.potential_savings[wood_type]}"
+        )
         click.echo()
 
         for unit in arr.units:
@@ -91,12 +98,32 @@ def calculate(pieces_file: str, settings_file: str):
     print_separator()
     click.echo()
 
-    headers = ["Wood Type", "Units", "Cost", "Waste"]
+    headers = ["Wood Type", "Units", "Cost", "Waste", "Waste %"]
     click.echo(tabulate(summary_data, headers=headers, tablefmt="grid"))
     click.echo()
 
-    click.echo(f"Total Units: {total_units}")
-    click.echo(f"Total Waste: {total_waste:.1f}cm")
+    # Print waste statistics
+    click.echo("\nWaste Analysis")
+    print_separator()
+    click.echo()
+
+    click.echo(f"Total Wood Used: {result.waste_statistics.total_wood_used:.1f}cm")
+    click.echo(f"Total Waste: {result.waste_statistics.total_waste:.1f}cm")
+    click.echo(
+        f"Overall Waste Percentage: {format_percentage(result.waste_statistics.waste_percentage)}"
+    )
+    click.echo()
+
+    click.echo("Waste Distribution by Type:")
+    for wood_type, waste_lengths in result.waste_statistics.waste_distribution.items():
+        if waste_lengths:
+            avg_waste = sum(waste_lengths) / len(waste_lengths)
+            max_waste = max(waste_lengths)
+            click.echo(f"  {wood_type}:")
+            click.echo(f"    Average waste per unit: {avg_waste:.1f}cm")
+            click.echo(f"    Largest waste piece: {max_waste:.1f}cm")
+    click.echo()
+
     click.echo(f"Total Cost: {format_currency(result.total_cost, settings.currency)}")
     print_separator()
 
