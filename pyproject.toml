@@ -19,10 +19,12 @@ python-multipart = "^0.0.6"
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.4"
 httpx = "^0.26.0" # For testing FastAPI endpoints
+requests = "^2.31.0" # For API testing script
 
 [tool.poetry.scripts]
 woodcut-planner = "woodcut_planner.cli:calculate"
 woodcut-api = "woodcut_planner.api:app"
+woodcut-server = "woodcut_planner.run:main"
 
 [build-system]
 requires = ["poetry-core"]
