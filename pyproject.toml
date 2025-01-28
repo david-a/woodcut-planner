@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "wood-calculator"
+version = "0.1.0"
+description = "A calculator for optimizing wood cutting arrangements"
+authors = ["Your Name <your.email@example.com>"]
+readme = "README.md"
+packages = [{ include = "wood_calculator", from = "src" }]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pydantic = "^2.10.6"
+click = "^8.1.8"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.4"
+
+[tool.poetry.scripts]
+wood-calculator = "wood_calculator.cli:calculate"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
