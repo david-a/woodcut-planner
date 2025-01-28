@@ -5,7 +5,6 @@ from tabulate import tabulate
 
 from .models import WoodPiece, Settings
 from .calculator import calculate_wood_arrangement
-from .visualization import create_arrangement_diagram
 
 
 def print_separator(char="=", length=50):
@@ -81,12 +80,15 @@ def calculate(pieces_file: str, settings_file: str):
         )
         click.echo()
 
-        # Display cutting diagram
-        click.echo(
-            create_arrangement_diagram(
-                wood_type, arr.units, settings.wood_types[wood_type].unit_length
-            )
-        )
+        for unit in arr.units:
+            click.echo(f"  Unit {unit.unit_number}")
+            print_separator("-", 30)
+            click.echo("  Pieces:")
+            for length, count in unit.pieces.items():
+                click.echo(f"    - {count}x {length}cm")
+            click.echo(f"  Waste: {unit.waste:.1f}cm")
+            print_separator("-", 30)
+            click.echo()
 
         print_separator()
         click.echo()
