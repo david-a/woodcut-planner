@@ -10,36 +10,43 @@
   import { calculateCuts, ApiError } from "../lib/utils/api";
   import { onMount } from "svelte";
 
-  let settings: Settings = {
-    wood_types: {},
-    saw_width: 0.3,
-    currency: " ILS",
-  };
-
+  let settings: Settings;
   let pieces: WoodPiece[] = [];
   let result: CalculationResult | null = null;
   let error: string | null = null;
   let isLoading = false;
+  let isInitialized = false;
 
-  $: availableTypes = Object.keys(settings.wood_types);
+  $: availableTypes = settings?.wood_types
+    ? Object.keys(settings.wood_types)
+    : [];
 
-  onMount(async () => {
-    console.log("onMount");
+  onMount(() => {
     // Load saved data from localStorage if available
     const savedSettings = localStorage.getItem("woodcalc_settings");
-    console.log("savedSettings", savedSettings);
     if (savedSettings) {
       try {
         settings = JSON.parse(savedSettings);
       } catch (e) {
         console.error("Failed to load saved settings:", e);
+        initializeDefaultSettings();
       }
+    } else {
+      initializeDefaultSettings();
     }
+    isInitialized = true;
   });
 
-  // Save settings whenever they change
-  $: {
-    console.log("settings changed", settings);
+  function initializeDefaultSettings() {
+    settings = {
+      wood_types: {},
+      saw_width: 0.3,
+      currency: "ILS",
+    };
+  }
+
+  // Save settings whenever they change, but only after initialization
+  $: if (isInitialized && settings) {
     localStorage.setItem("woodcalc_settings", JSON.stringify(settings));
   }
 
@@ -70,58 +77,65 @@
   <div class="container">
     <h1>Wood Cut Calculator</h1>
 
-    <div class="settings-section">
-      <div class="general-setting">
-        <label for="saw-width">Saw Width (cm)</label>
-        <input
-          id="saw-width"
-          type="number"
-          bind:value={settings.saw_width}
-          min="0.1"
-          step="0.1"
-        />
-      </div>
-      <div class="general-setting">
-        <div class="currency-setting">
-          <label for="currency">Currency</label>
-          <input id="currency" type="text" bind:value={settings.currency} />
-        </div>
-      </div>
+    {#if !isInitialized}
+      <div class="loading-message">Loading settings...</div>
+    {:else}
+      <div class="settings-section">
+        <details class="advanced-settings">
+          <summary>Advanced Settings</summary>
+          <div class="general-setting">
+            <label for="saw-width">Saw Width (cm)</label>
+            <input
+              id="saw-width"
+              type="number"
+              bind:value={settings.saw_width}
+              min="0.1"
+              step="0.1"
+            />
+          </div>
+          <div class="general-setting">
+            <div class="currency-setting">
+              <label for="currency">Currency</label>
+              <input id="currency" type="text" bind:value={settings.currency} />
+            </div>
+          </div>
+        </details>
 
-      <WoodTypeInput bind:woodTypes={settings.wood_types} />
+        <WoodTypeInput bind:woodTypes={settings.wood_types} />
 
-      {#if availableTypes.length > 0}
-        <PiecesInput bind:pieces {availableTypes} />
+        {#if availableTypes.length > 0}
+          <PiecesInput bind:pieces {availableTypes} />
 
-        <div class="actions">
-          <button
-            class="calculate-btn"
-            on:click={handleCalculate}
-            disabled={isLoading || pieces.length === 0}
-          >
-            {#if isLoading}
-              Calculating...
-            {:else}
-              Calculate Cuts
-            {/if}
-          </button>
-        </div>
+          <div class="actions">
+            <button
+              class="calculate-btn"
+              on:click={handleCalculate}
+              disabled={isLoading || pieces.length === 0}
+            >
+              {#if isLoading}
+                Calculating...
+              {:else}
+                Calculate Cuts
+              {/if}
+            </button>
+          </div>
 
-        {#if error}
-          <div class="error-message">
-            {error}
+          {#if error}
+            <div class="error-message">
+              {error}
+            </div>
+          {/if}
+
+          {#if result}
+            <ResultsView {result} />
+          {/if}
+        {:else}
+          <div class="info-message">
+            Add wood types above to start planning your cuts
           </div>
         {/if}
-
-        {#if result}
-          <ResultsView {result} />
-        {/if}
-      {:else}
-        <div class="info-message">
-          Add wood types above to start planning your cuts
-        </div>
-      {/if}
-    </div>
+      </div>
+    {/if}
   </div>
 </main>
 
@@ -153,6 +167,11 @@
     gap: 2rem;
   }
 
+  .advanced-settings {
+    padding: 1rem;
+    border-radius: 8px;
+  }
+
   .general-setting {
     display: flex;
     align-items: center;
@@ -161,6 +180,8 @@
     padding: 1rem;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
   }
 
   label {
@@ -219,5 +240,14 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     color: #dc3545;
     border-left: 4px solid #dc3545;
+  }
+
+  .loading-message {
+    text-align: center;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: #6c757d;
   }
 </style>
