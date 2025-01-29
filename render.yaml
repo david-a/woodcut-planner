@@ -1,0 +1,35 @@
+services:
+  # Frontend Service
+  - type: web
+    name: wood-calculator-frontend
+    runtime: node
+    buildCommand: deno run build
+    startCommand: node build/index.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PUBLIC_API_URL
+        fromService:
+          name: wood-calculator-api
+          type: web
+          property: url
+          envVarKey: PUBLIC_API_URL
+    autoDeploy: true
+
+  # Backend API Service
+  - type: web
+    name: wood-calculator-api
+    runtime: python
+    buildCommand: pip install poetry && poetry install
+    startCommand: poetry run uvicorn woodcut_planner.api:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.0
+      - key: POETRY_VIRTUALENVS_CREATE
+        value: false
+      - key: ALLOWED_ORIGINS
+        fromService:
+          name: wood-calculator-frontend
+          type: web
+          property: url
+    autoDeploy: true

@@ -2,6 +2,7 @@ from typing import List
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+import os
 
 from .models import WoodPiece, Settings, CalculationResult
 from .calculator import calculate_wood_arrangement
@@ -18,10 +19,19 @@ app = FastAPI(
     version="1.0.0",
 )
 
-# Enable CORS for the Svelte frontend
+# Get allowed origins from environment or use default for local development
+ALLOWED_ORIGINS = [
+    origin.strip()
+    for origin in os.getenv(
+        "ALLOWED_ORIGINS",
+        "http://localhost:5173,http://localhost:4173",  # Dev and preview servers
+    ).split(",")
+]
+
+# Enable CORS for the frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # Default SvelteKit dev server
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
