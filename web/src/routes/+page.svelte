@@ -169,7 +169,11 @@
           {/if}
 
           {#if result}
-            <ResultsView {result} currency={settings.currency} />
+            <ResultsView 
+              {result} 
+              currency={settings.currency} 
+              {settings}
+            />
           {/if}
         {:else}
           <div class="info-message">

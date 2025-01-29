@@ -1,8 +1,12 @@
 {
+  "imports": {
+    "@sveltejs/kit": "npm:@sveltejs/kit@2.0.6",
+    "jszip": "npm:jszip@3.10.1"
+  },
   "tasks": {
-    "dev": "deno run -A --node-modules-dir npm:vite dev",
-    "build": "deno run -A --node-modules-dir npm:vite build",
-    "preview": "deno run -A --node-modules-dir npm:vite preview",
+    "dev": "deno run -A npm:vite dev",
+    "build": "deno run -A npm:vite build",
+    "preview": "deno run -A npm:vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json"
   },
   "compilerOptions": {
