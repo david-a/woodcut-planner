@@ -14,10 +14,19 @@
 	const wastePercentage = $derived(result.waste_statistics.waste_percentage.toFixed(1));
 
 	function formatCurrency(amount: number): string {
-		return new Intl.NumberFormat('en-US', {
-			style: 'currency',
-			currency: currency
-		}).format(amount);
+		try {
+			// Remove any leading/trailing spaces from currency code
+			const cleanCurrency = currency.trim();
+			return new Intl.NumberFormat('en-US', {
+				style: 'currency',
+				currency: cleanCurrency,
+				minimumFractionDigits: 2,
+				maximumFractionDigits: 2
+			}).format(amount);
+		} catch (error) {
+			// Fallback to basic number formatting if currency formatting fails
+			return `${amount.toFixed(2)} ${currency.trim()}`;
+		}
 	}
 
 	function toggleType(type: string) {
@@ -60,11 +69,11 @@
 					<div class="wood-type-header">
 						<h4>{arrangement.wood_type}</h4>
 						<span class="units-count">
-							{result.total_units[arrangement.wood_type]} units
+							{result.total_units?.[arrangement.wood_type] ?? 0} units
 						</span>
 					</div>
 					<div class="wood-type-cost">
-						{formatCurrency(result.costs.per_type[arrangement.wood_type])}
+						{formatCurrency(result.costs?.per_type?.[arrangement.wood_type] ?? 0)}
 					</div>
 					<div class="expand-hint">
 						Click to {selectedType === arrangement.wood_type ? 'hide' : 'show'} details
@@ -77,14 +86,14 @@
 							<div class="unit-card">
 								<h5>Unit {unit.unit_number}</h5>
 								<div class="pieces-list">
-									{#each Object.entries(unit.pieces) as [length, count]}
+									{#each Object.entries(unit.pieces ?? {}) as [length, count]}
 										<div class="piece-item">
 											{count}x {length}cm
 										</div>
 									{/each}
 								</div>
 								<div class="waste-info">
-									Waste: {unit.waste.toFixed(1)}cm
+									Waste: {(unit.waste ?? 0).toFixed(1)}cm
 								</div>
 							</div>
 						{/each}

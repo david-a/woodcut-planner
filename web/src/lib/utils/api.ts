@@ -31,9 +31,6 @@ async function handleResponse<T>(response: Response): Promise<T> {
 export async function calculateCuts(
   request: CalculateRequest
 ): Promise<CalculationResult> {
-  console.log("Making API request to:", `${API_BASE_URL}/calculate`);
-  console.log("Request payload:", request);
-
   const response = await fetch(`${API_BASE_URL}/calculate`, {
     method: "POST",
     headers: {
@@ -42,9 +39,7 @@ export async function calculateCuts(
     body: JSON.stringify(request),
   });
 
-  console.log("Response status:", response.status);
   const result = await handleResponse<CalculationResult>(response);
-  console.log("Response data:", result);
   return result;
 }
 
