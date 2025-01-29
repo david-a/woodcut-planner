@@ -30,7 +30,12 @@
     };
   }
 
-  // Load settings on mount
+  function resetPieces() {
+    pieces = [];
+    localStorage.removeItem("woodcalc_pieces");
+  }
+
+  // Load settings and pieces on mount
   onMount(() => {
     const savedSettings = localStorage.getItem("woodcalc_settings");
     if (savedSettings) {
@@ -43,6 +48,16 @@
     } else {
       initializeDefaultSettings();
     }
+
+    const savedPieces = localStorage.getItem("woodcalc_pieces");
+    if (savedPieces) {
+      try {
+        pieces = JSON.parse(savedPieces);
+      } catch (e) {
+        console.error("Failed to load saved pieces:", e);
+        pieces = [];
+      }
+    }
     isInitialized = true;
   });
 
@@ -50,6 +65,13 @@
   $effect(() => {
     if (isInitialized && settings) {
       localStorage.setItem("woodcalc_settings", JSON.stringify(settings));
+    }
+  });
+
+  // Save pieces effect
+  $effect(() => {
+    if (isInitialized && pieces) {
+      localStorage.setItem("woodcalc_pieces", JSON.stringify(pieces));
     }
   });
 
@@ -119,7 +141,12 @@
         />
 
         {#if availableTypes.length > 0}
-          <PiecesInput {pieces} {availableTypes} onUpdate={updatePieces} />
+          <PiecesInput 
+            {pieces} 
+            {availableTypes} 
+            onUpdate={updatePieces} 
+            onReset={resetPieces}
+          />
 
           <div class="actions">
             <button
