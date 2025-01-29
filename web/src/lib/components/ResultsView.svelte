@@ -6,27 +6,51 @@
 		currency: string;
 	}
 
-	const { result, currency = 'USD' } = $props<Props>();
+	const { result, currency = 'ILS' } = $props<Props>();
+
+	// Debug logging
+	console.log('Result data:', {
+		result,
+		costs: result.costs,
+		arrangements: result.arrangements
+	});
 
 	let selectedType = $state<string | null>(null);
 
-	const totalCost = $derived(result.costs.total);
-	const wastePercentage = $derived(result.waste_statistics.waste_percentage.toFixed(1));
+	// Calculate total cost directly
+	const costs = Object.values(result.costs ?? {});
+	console.log('Costs array:', costs);
+	const totalCostValue = costs.reduce((sum, cost) => sum + (cost ?? 0), 0);
+	console.log('Total cost calculated:', totalCostValue);
+
+	const wastePercentage = $derived(
+		typeof result.waste_statistics?.waste_percentage === 'number' 
+			? result.waste_statistics.waste_percentage.toFixed(1) 
+			: '0.0'
+	);
 
 	function formatCurrency(amount: number): string {
+		console.log('Formatting amount:', amount);
 		try {
-			// Remove any leading/trailing spaces from currency code
 			const cleanCurrency = currency.trim();
-			return new Intl.NumberFormat('en-US', {
+			const validAmount = typeof amount === 'number' && !isNaN(amount) ? amount : 0;
+			console.log('Valid amount:', validAmount);
+			return new Intl.NumberFormat('he-IL', {
 				style: 'currency',
 				currency: cleanCurrency,
 				minimumFractionDigits: 2,
 				maximumFractionDigits: 2
-			}).format(amount);
+			}).format(validAmount);
 		} catch (error) {
-			// Fallback to basic number formatting if currency formatting fails
-			return `${amount.toFixed(2)} ${currency.trim()}`;
+			console.error('Currency formatting error:', error);
+			const validAmount = typeof amount === 'number' && !isNaN(amount) ? amount : 0;
+			return `${validAmount.toFixed(2)} ${currency.trim()}`;
 		}
+	}
+
+	function getTypeCost(woodType: string): number {
+		console.log('Getting cost for type:', woodType, result.costs?.[woodType]);
+		return result.costs?.[woodType] ?? 0;
 	}
 
 	function toggleType(type: string) {
@@ -41,7 +65,7 @@
 	<div class="summary-section">
 		<div class="summary-card">
 			<h3>Total Cost</h3>
-			<div class="value">{formatCurrency(totalCost)}</div>
+			<div class="value">{formatCurrency(totalCostValue)}</div>
 		</div>
 		<div class="summary-card">
 			<h3>Waste Percentage</h3>
@@ -73,7 +97,7 @@
 						</span>
 					</div>
 					<div class="wood-type-cost">
-						{formatCurrency(result.costs?.per_type?.[arrangement.wood_type] ?? 0)}
+						{formatCurrency(getTypeCost(arrangement.wood_type))}
 					</div>
 					<div class="expand-hint">
 						Click to {selectedType === arrangement.wood_type ? 'hide' : 'show'} details

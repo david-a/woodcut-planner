@@ -250,22 +250,12 @@ The algorithm evaluates each strategy based on:
 
 ### Future Improvements
 
-1. Waste Analysis:
+1. Per-Project Piece Input
 
-   - Add detailed waste statistics
-   - Calculate waste percentage per unit and total
-   - Suggest optimal piece combinations
-
-2. Visualization:
-
-   - ASCII diagrams of cutting patterns
-   - Visual waste distribution
-   - Unit utilization graphs
-
-3. Advanced Optimization:
-   - Multiple-pass optimization
-   - Consider piece rotations
-   - Dynamic adjustment of strategies based on input patterns
+   - Allow users to input pieces for each project
+   - Save and load project-specific pieces
+   - Allow users to add and remove pieces for each project
+   - Calculate costs and waste for all the pieces in all the projects, but add the project for each piece in the outputs
 
 ### Data Structures
 
