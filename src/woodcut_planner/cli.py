@@ -11,6 +11,7 @@ from .csv_exporter import (
     generate_purchase_order,
     generate_arrangements,
     generate_waste_analysis,
+    generate_cutting_plan,
 )
 
 
@@ -282,6 +283,39 @@ def export_waste_analysis(pieces_file: str, settings_file: str, output_file: str
     help="JSON file containing wood types and settings",
 )
 @click.option(
+    "--output",
+    "-o",
+    "output_file",
+    type=click.Path(),
+    required=True,
+    help="Path to save the CSV file",
+)
+def export_cutting_plan(pieces_file: str, settings_file: str, output_file: str):
+    """Export aggregated cutting plan to CSV."""
+    pieces, settings = load_input_files(pieces_file, settings_file)
+    result = calculate_wood_arrangement(pieces, settings)
+    csv_data = generate_cutting_plan(result, settings)
+    save_csv(csv_data, output_file)
+
+
+@cli.command()
+@click.option(
+    "--pieces",
+    "-p",
+    "pieces_file",
+    type=click.Path(exists=True),
+    required=True,
+    help="JSON file containing list of required pieces",
+)
+@click.option(
+    "--settings",
+    "-s",
+    "settings_file",
+    type=click.Path(exists=True),
+    required=True,
+    help="JSON file containing wood types and settings",
+)
+@click.option(
     "--output-dir",
     "-o",
     "output_dir",
@@ -309,6 +343,10 @@ def export_all(pieces_file: str, settings_file: str, output_dir: str):
     # Export waste analysis
     csv_data = generate_waste_analysis(result, settings)
     save_csv(csv_data, output_path / "waste_analysis.csv")
+
+    # Export cutting plan
+    csv_data = generate_cutting_plan(result, settings)
+    save_csv(csv_data, output_path / "cutting_plan.csv")
 
 
 if __name__ == "__main__":

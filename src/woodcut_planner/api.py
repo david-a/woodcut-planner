@@ -9,6 +9,7 @@ from .csv_exporter import (
     generate_purchase_order,
     generate_arrangements,
     generate_waste_analysis,
+    generate_cutting_plan,
 )
 
 app = FastAPI(
@@ -64,6 +65,14 @@ async def export_waste_analysis(request: CalculationRequest) -> dict:
     result = calculate_wood_arrangement(request.pieces, request.settings)
     csv_data = generate_waste_analysis(result, request.settings)
     return {"filename": "waste_analysis.csv", "data": csv_data}
+
+
+@app.post("/api/export/cutting-plan")
+async def export_cutting_plan(request: CalculationRequest) -> dict:
+    """Generate a CSV export of the aggregated cutting plan."""
+    result = calculate_wood_arrangement(request.pieces, request.settings)
+    csv_data = generate_cutting_plan(result, request.settings)
+    return {"filename": "cutting_plan.csv", "data": csv_data}
 
 
 @app.get("/api/health")

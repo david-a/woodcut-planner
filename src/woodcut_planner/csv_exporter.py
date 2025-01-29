@@ -108,3 +108,39 @@ def generate_waste_analysis(
             csv_data.append([wood_type, i, f"{waste:.1f}"])
 
     return csv_data
+
+
+def generate_cutting_plan(
+    result: CalculationResult, settings: Settings
+) -> List[List[str]]:
+    """Generate CSV data for the cutting plan showing cuts needed from each unit."""
+    csv_data = []
+    csv_data.append(["Wood Type", "Unit Number", "Cuts Required"])
+
+    # Generate cutting plan for each wood type
+    for arr in result.arrangements:
+        wood_type = arr.wood_type
+        unit_length = settings.wood_types[wood_type].unit_length
+
+        # Add wood type header
+        csv_data.append([])
+        csv_data.append([f"{wood_type} (Unit Length: {unit_length}cm)"])
+        csv_data.append([])
+
+        # For each unit, show the cuts needed
+        for unit in arr.units:
+            # Add unit header
+            csv_data.append([wood_type, f"Unit {unit.unit_number}:"])
+
+            # Add cuts for this unit, sorted by length
+            for length in sorted(unit.pieces.keys(), reverse=True):
+                count = unit.pieces[length]
+                cut_description = f"{count}x {length:.1f}cm"
+                csv_data.append(["", "", cut_description])
+
+            # Add waste information
+            if unit.waste > 0:
+                csv_data.append(["", "", f"Remaining: {unit.waste:.1f}cm"])
+            csv_data.append([])
+
+    return csv_data
