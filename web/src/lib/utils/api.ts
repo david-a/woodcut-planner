@@ -1,4 +1,4 @@
-import type { Settings, WoodPiece, CalculationResult } from "../types/wood";
+import type { Settings, WoodPiece, CalculationResult } from "../types/wood.ts";
 
 const API_BASE_URL = "http://localhost:8000/api";
 
