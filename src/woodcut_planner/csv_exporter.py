@@ -9,7 +9,14 @@ def generate_purchase_order(
     """Generate CSV data for the purchase order."""
     csv_data = []
     csv_data.append(
-        ["Wood Type", "Unit Length (cm)", "Units", "Cost per Unit", "Total Cost"]
+        [
+            "Wood Type",
+            "Unit Length (cm)",
+            "Units",
+            "Cost per Unit",
+            "Currency",
+            "Total Cost",
+        ]
     )
 
     for wood_type, units in result.total_units.items():
@@ -21,8 +28,9 @@ def generate_purchase_order(
                 wood_type,
                 unit_length,
                 units,
-                f"{cost_per_unit:.2f}{settings.currency}",
-                f"{total_cost:.2f}{settings.currency}",
+                f"{cost_per_unit:.2f}",
+                settings.currency,
+                f"{total_cost:.2f}",
             ]
         )
 
