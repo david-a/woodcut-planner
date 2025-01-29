@@ -22,7 +22,7 @@ httpx = "^0.26.0" # For testing FastAPI endpoints
 requests = "^2.31.0" # For API testing script
 
 [tool.poetry.scripts]
-woodcut-planner = "woodcut_planner.cli:calculate"
+woodcut-planner = "woodcut_planner.cli:cli"
 woodcut-api = "woodcut_planner.api:app"
 woodcut-server = "woodcut_planner.run:main"
 

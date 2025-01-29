@@ -18,9 +18,53 @@ The calculator can be used in three ways:
 
 ### Command Line Usage
 
+The CLI provides several commands:
+
+1. Calculate cutting arrangements:
+
 ```bash
-poetry run python -m woodcut_planner.cli test-pieces.json test-settings.json
+woodcut-planner calculate --pieces test-pieces.json --settings test-settings.json
+# Or using short options:
+woodcut-planner calculate -p test-pieces.json -s test-settings.json
 ```
+
+2. Export purchase order to CSV:
+
+```bash
+woodcut-planner export-purchase-order --pieces test-pieces.json --settings test-settings.json --output purchase-order.csv
+# Or using short options:
+woodcut-planner export-purchase-order -p test-pieces.json -s test-settings.json -o purchase-order.csv
+```
+
+3. Export cutting arrangements to CSV:
+
+```bash
+woodcut-planner export-arrangements --pieces test-pieces.json --settings test-settings.json --output arrangements.csv
+# Or using short options:
+woodcut-planner export-arrangements -p test-pieces.json -s test-settings.json -o arrangements.csv
+```
+
+4. Export waste analysis to CSV:
+
+```bash
+woodcut-planner export-waste-analysis --pieces test-pieces.json --settings test-settings.json --output waste-analysis.csv
+# Or using short options:
+woodcut-planner export-waste-analysis -p test-pieces.json -s test-settings.json -o waste-analysis.csv
+```
+
+5. Export all data to CSV files:
+
+```bash
+woodcut-planner export-all --pieces test-pieces.json --settings test-settings.json --output-dir exports/
+# Or using short options:
+woodcut-planner export-all -p test-pieces.json -s test-settings.json -o exports/
+```
+
+This will create three files in the specified directory:
+
+- `purchase_order.csv`: List of wood types to purchase with quantities and costs
+- `arrangements.csv`: Detailed cutting arrangements for each wood unit
+- `waste_analysis.csv`: Waste statistics and analysis
 
 ### Python API Usage
 
@@ -100,13 +144,13 @@ The server will start on `http://localhost:8000` with auto-reload enabled for de
    }
    ```
 
-3. **Export Cutting List**
+3. **Export Purchase Order**
 
    ```http
-   POST /api/export/cutting-list
+   POST /api/export/purchase-order
    ```
 
-   Generate a CSV file with the cutting list.
+   Generate a CSV file with the purchase order, including unit lengths, quantities, and costs.
 
    Uses the same request format as the calculate endpoint.
 
@@ -117,6 +161,16 @@ The server will start on `http://localhost:8000` with auto-reload enabled for de
    ```
 
    Generate a CSV file with detailed cutting arrangements.
+
+   Uses the same request format as the calculate endpoint.
+
+5. **Export Waste Analysis**
+
+   ```http
+   POST /api/export/waste-analysis
+   ```
+
+   Generate a CSV file with waste statistics and analysis.
 
    Uses the same request format as the calculate endpoint.
 

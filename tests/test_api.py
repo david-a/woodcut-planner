@@ -43,16 +43,22 @@ def test_calculate(sample_request):
     assert result["total_cost"] > 0
 
 
-def test_export_cutting_list(sample_request):
-    response = client.post("/api/export/cutting-list", json=sample_request)
+def test_export_purchase_order(sample_request):
+    response = client.post("/api/export/purchase-order", json=sample_request)
     assert response.status_code == 200
     result = response.json()
 
     assert "filename" in result
     assert "data" in result
-    assert result["filename"] == "cutting_list.csv"
+    assert result["filename"] == "purchase_order.csv"
     assert len(result["data"]) > 1  # Header + at least one row
-    assert result["data"][0] == ["Wood Type", "Length (cm)", "Count"]
+    assert result["data"][0] == [
+        "Wood Type",
+        "Unit Length (cm)",
+        "Units",
+        "Cost per Unit",
+        "Total Cost",
+    ]
 
 
 def test_export_arrangements(sample_request):
@@ -70,7 +76,6 @@ def test_export_arrangements(sample_request):
         "Piece Length (cm)",
         "Piece Count",
         "Start Position (cm)",
-        "Waste (cm)",
     ]
 
 

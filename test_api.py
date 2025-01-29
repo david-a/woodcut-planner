@@ -29,10 +29,10 @@ def test_calculate(data: Dict[str, Any]) -> None:
     print_response(response)
 
 
-def test_export_cutting_list(data: Dict[str, Any]) -> None:
-    """Test cutting list export endpoint."""
-    print("Testing export cutting list endpoint...")
-    response = requests.post(f"{BASE_URL}/api/export/cutting-list", json=data)
+def test_export_purchase_order(data: Dict[str, Any]) -> None:
+    """Test purchase order export endpoint."""
+    print("Testing export purchase order endpoint...")
+    response = requests.post(f"{BASE_URL}/api/export/purchase-order", json=data)
     print_response(response)
 
 
@@ -64,7 +64,7 @@ def main():
     # Run tests
     test_health()
     test_calculate(test_data)
-    test_export_cutting_list(test_data)
+    test_export_purchase_order(test_data)
     test_export_arrangements(test_data)
 
 

@@ -1,0 +1,43 @@
+Overall Statistics
+Total Wood Used (cm),Total Waste (cm),Overall Waste %
+14880.0,2719.1,18.3%
+
+Waste by Type
+Wood Type,Total Waste (cm),Waste %,Suggestion
+pine 2x10,334.0,7.0%,Large waste in some units - consider rearranging pieces
+pine 2x15,253.5,13.2%,Consider combining orders or finding smaller pieces to fill gaps
+pine 5x10,2131.6,26.1%,Consider combining orders or finding smaller pieces to fill gaps
+
+Waste Distribution
+Wood Type,Unit Number,Waste Length (cm)
+pine 2x10,1,25.5
+pine 2x10,2,25.5
+pine 2x10,3,25.5
+pine 2x10,4,25.5
+pine 2x10,5,25.5
+pine 2x10,6,25.5
+pine 2x10,7,25.5
+pine 2x10,8,9.2
+pine 2x10,9,6.2
+pine 2x10,10,140.1
+pine 2x15,1,25.5
+pine 2x15,2,25.5
+pine 2x15,3,25.5
+pine 2x15,4,177.0
+pine 5x10,1,199.7
+pine 5x10,2,199.7
+pine 5x10,3,199.7
+pine 5x10,4,199.7
+pine 5x10,5,199.7
+pine 5x10,6,199.7
+pine 5x10,7,199.7
+pine 5x10,8,199.7
+pine 5x10,9,199.7
+pine 5x10,10,59.4
+pine 5x10,11,59.4
+pine 5x10,12,63.9
+pine 5x10,13,68.4
+pine 5x10,14,11.0
+pine 5x10,15,50.4
+pine 5x10,16,18.3
+pine 5x10,17,3.5

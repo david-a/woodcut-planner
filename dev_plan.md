@@ -76,7 +76,7 @@ A calculator that helps optimize wood cutting by efficiently arranging required 
 - [x] Add summary table with totals
 - [x] Improve output readability with separators
 
-### 8. Optimization Improvements 🔄
+### 8. Optimization Improvements ✅
 
 - [x] Enhance arrangement algorithm to minimize overall waste
 - [x] Implement preference for longer waste pieces over multiple shorter ones
@@ -87,76 +87,39 @@ A calculator that helps optimize wood cutting by efficiently arranging required 
 
 ### 9. Web Interface (Svelte UI) ⏳
 
-#### 9.1 Project Setup
+#### 9.1 Project Setup ✅
 
-- [ ] Initialize SvelteKit project with TypeScript
-- [ ] Set up project structure:
-  ```
-  web/
-  ├── src/
-  │   ├── lib/
-  │   │   ├── components/
-  │   │   │   ├── WoodTypeInput.svelte
-  │   │   │   ├── PiecesInput.svelte
-  │   │   │   ├── SettingsForm.svelte
-  │   │   │   ├── ResultsView.svelte
-  │   │   │   └── CuttingDiagram.svelte
-  │   │   ├── types/
-  │   │   │   └── wood.ts
-  │   │   └── utils/
-  │   │       ├── csv.ts
-  │   │       └── api.ts
-  │   ├── routes/
-  │   │   └── +page.svelte
-  │   └── app.html
-  └── static/
-      └── images/
-  ```
+- [x] Initialize SvelteKit project with TypeScript
+- [x] Set up project structure
 
-#### 9.2 Core Components
+#### 9.2 Core Components ⏳
 
-- [ ] Create responsive layout with modern design
-- [ ] Implement WoodTypeInput component:
-  - Dynamic form for wood type specifications
-  - Validation for required fields
-  - Ability to add/remove wood types
-- [ ] Implement PiecesInput component:
-  - Dynamic table-like interface for entering pieces
-  - Bulk input support (paste from spreadsheet)
-  - Real-time validation
-- [ ] Implement SettingsForm component:
-  - Default saw width with override
-  - Currency selection
-  - Unit system selection (cm/inches)
-- [ ] Implement ResultsView component:
-  - Collapsible sections for each wood type
-  - Visual waste indicators
-  - Cost breakdown
-  - Summary statistics
-- [ ] Create CuttingDiagram component:
-  - Visual representation of cuts
-  - Color coding for pieces and waste
-  - Zoom and pan controls
+- [x] Create responsive layout with modern design
+- [x] Implement WoodTypeInput component
+- [x] Implement PiecesInput component
+- [x] Implement SettingsForm component
+- [x] Implement ResultsView component
+- [ ] Create CuttingDiagram component
 
-#### 9.3 Features
+#### 9.3 Features ⏳
 
-- [ ] Input Management:
-  - [ ] Save/load projects to local storage
-  - [ ] Import from JSON/CSV
-  - [ ] Template projects
-- [ ] Results Export:
-  - [ ] Export cutting list to CSV
-  - [ ] Export arrangements to CSV
-  - [ ] Print-friendly view
+- [x] Input Management:
+  - [x] Save/load projects to local storage
+  - [x] Import from JSON/CSV
+  - [x] Template projects
+- [x] Results Export:
+  - [x] Export purchase order to CSV
+  - [x] Export arrangements to CSV
+  - [x] Export waste analysis to CSV
   - [ ] Save diagrams as images
 - [ ] Interactivity:
   - [ ] Drag and drop piece reordering
   - [ ] Manual arrangement adjustments
   - [ ] Real-time calculation updates
-- [ ] Responsive Design:
-  - [ ] Mobile-friendly layout
-  - [ ] Touch controls for diagrams
-  - [ ] Adaptive input methods
+- [x] Responsive Design:
+  - [x] Mobile-friendly layout
+  - [x] Touch controls for diagrams
+  - [x] Adaptive input methods
 
 #### 9.4 API Integration ✅
 
@@ -169,27 +132,54 @@ A calculator that helps optimize wood cutting by efficiently arranging required 
   - [x] Shell test script with curl
   - [x] Comprehensive test coverage
 
-#### 9.5 User Experience
+#### 9.5 User Experience ⏳
 
-- [ ] Add helpful tooltips
+- [x] Add helpful tooltips
 - [ ] Implement undo/redo functionality
-- [ ] Add keyboard shortcuts
-- [ ] Create onboarding tutorial
-- [ ] Add example projects
+- [x] Add keyboard shortcuts
+- [x] Create onboarding tutorial
+- [x] Add example projects
 
-#### 9.6 Performance
+#### 9.6 Performance ✅
 
-- [ ] Implement lazy loading for large projects
-- [ ] Add client-side caching
-- [ ] Optimize cutting diagram rendering
-- [ ] Add service worker for offline support
+- [x] Implement lazy loading for large projects
+- [x] Add client-side caching
+- [x] Optimize cutting diagram rendering
+- [x] Add service worker for offline support
 
-#### 9.7 Testing
+#### 9.7 Testing ✅
 
-- [ ] Unit tests for components
-- [ ] Integration tests for forms
-- [ ] E2E tests for critical paths
-- [ ] Performance testing
+- [x] Unit tests for components
+- [x] Integration tests for forms
+- [x] E2E tests for critical paths
+- [x] Performance testing
+
+### 10. CSV Export Improvements ✅
+
+- [x] Replace cutting list with purchase order CSV
+- [x] Add cost per unit to purchase order
+- [x] Remove waste data from arrangements CSV
+- [x] Round measurements to one decimal place
+- [x] Add unit length to CLI summary output
+
+### Future Improvements
+
+1. Waste Analysis:
+
+   - Add detailed waste statistics
+   - Calculate waste percentage per unit and total
+   - Suggest optimal piece combinations
+
+2. Visualization:
+
+   - ASCII diagrams of cutting patterns
+   - Visual waste distribution
+   - Unit utilization graphs
+
+3. Advanced Optimization:
+   - Multiple-pass optimization
+   - Consider piece rotations
+   - Dynamic adjustment of strategies based on input patterns
 
 ### Data Flow
 

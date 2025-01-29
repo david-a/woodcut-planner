@@ -30,9 +30,9 @@ curl -X POST http://localhost:8000/api/calculate \
     }
   }' | json_pp
 
-# Export cutting list
-echo -e "\n\nTesting export cutting list endpoint..."
-curl -X POST http://localhost:8000/api/export/cutting-list \
+# Export purchase order
+echo -e "\n\nTesting export purchase order endpoint..."
+curl -X POST http://localhost:8000/api/export/purchase-order \
   -H "Content-Type: application/json" \
   -d '{
     "pieces": [
