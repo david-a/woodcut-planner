@@ -162,25 +162,6 @@ A calculator that helps optimize wood cutting by efficiently arranging required 
 - [x] Round measurements to one decimal place
 - [x] Add unit length to CLI summary output
 
-### Future Improvements
-
-1. Waste Analysis:
-
-   - Add detailed waste statistics
-   - Calculate waste percentage per unit and total
-   - Suggest optimal piece combinations
-
-2. Visualization:
-
-   - ASCII diagrams of cutting patterns
-   - Visual waste distribution
-   - Unit utilization graphs
-
-3. Advanced Optimization:
-   - Multiple-pass optimization
-   - Consider piece rotations
-   - Dynamic adjustment of strategies based on input patterns
-
 ### Data Flow
 
 ```mermaid
@@ -255,7 +236,8 @@ The algorithm evaluates each strategy based on:
    - Allow users to input pieces for each project
    - Save and load project-specific pieces
    - Allow users to add and remove pieces for each project
-   - Calculate costs and waste for all the pieces in all the projects, but add the project for each piece in the outputs
+   - Calculate costs and waste for all the pieces in all the projects, but add the project for each piece in the outputs.
+   - Also calculate the total waste and cost for each project.
 
 ### Data Structures
 
