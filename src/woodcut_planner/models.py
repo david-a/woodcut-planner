@@ -55,3 +55,4 @@ class CalculationResult(BaseModel):
     costs: Dict[str, float]
     total_cost: float
     waste_statistics: WasteStatistics
+    currency: str = Field(default="ILS")

@@ -7,6 +7,7 @@
     "npm:svelte-check@4": "4.1.4_svelte@5.19.4__acorn@8.14.0_typescript@5.7.3",
     "npm:svelte@5": "5.19.4_acorn@8.14.0",
     "npm:typescript@5": "5.7.3",
+    "npm:vite@*": "6.0.11",
     "npm:vite@6": "6.0.11"
   },
   "npm": {
