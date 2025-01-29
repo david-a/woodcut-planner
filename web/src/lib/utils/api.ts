@@ -1,6 +1,7 @@
 import type { Settings, WoodPiece, CalculationResult } from "../types/wood.ts";
+import { env } from "$env/dynamic/public";
 
-const API_BASE_URL = "http://localhost:8000/api";
+const API_BASE_URL = env.PUBLIC_API_URL || "http://localhost:8000/api";
 
 export class ApiError extends Error {
   constructor(public status: number, message: string) {
