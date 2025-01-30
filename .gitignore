@@ -39,3 +39,5 @@ poetry.lock
 pieces.json
 settings.json
 exports/
+
+.DS_Store
